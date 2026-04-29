@@ -278,6 +278,7 @@ select {
 .unit-input em {
   padding-right: 12px;
   color: var(--muted);
+  font-size: 1.6rem;
   font-style: normal;
   font-weight: 900;
 }
@@ -383,7 +384,7 @@ select {
 .brew-timer strong {
   display: block;
   margin-top: 2px;
-  font-size: clamp(2.65rem, 13.5vw, 3.85rem);
+  font-size: clamp(1.9rem, 10vw, 2.6rem);
   line-height: 0.9;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0;
