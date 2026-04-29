@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f4efe7" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#171512" />
+    <meta name="color-scheme" content="dark" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="4:6 Brew" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>Coffee 4:6 Brew Calculator</title>
     <link rel="manifest" href="./manifest.json" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="icon" href="./icons/icon-192.png" sizes="192x192" />
-    <link rel="stylesheet" href="./styles.css?v=5" />
+    <link rel="stylesheet" href="./styles.css?v=8" />
   </head>
   <body>
     <main class="app" aria-labelledby="app-title">
@@ -145,7 +145,7 @@
         <div class="brew-timer" aria-label="Brew stopwatch">
           <div>
             <span id="timer-label">Stopwatch ready</span>
-            <strong id="timer-display">0:00</strong>
+            <strong id="timer-display">0:00.000</strong>
             <p id="timer-prompt">Pour #1 when you start.</p>
           </div>
           <div class="timer-controls">
@@ -180,6 +180,6 @@
       <p id="toast" class="toast" aria-live="polite"></p>
     </main>
 
-    <script src="./app.js?v=5"></script>
+    <script src="./app.js?v=8"></script>
   </body>
 </html>

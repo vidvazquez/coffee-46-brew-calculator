@@ -70,7 +70,7 @@ let toastTimer;
 let timerId;
 const timer = {
   running: false,
-  elapsed: 0,
+  elapsedMs: 0,
   startedAt: 0,
 };
 
@@ -93,9 +93,17 @@ function formatTime(seconds) {
   return `${minutes}:${rest}`;
 }
 
-function currentElapsed() {
-  if (!timer.running) return timer.elapsed;
-  return Math.floor((Date.now() - timer.startedAt) / 1000) + timer.elapsed;
+function formatStopwatch(milliseconds) {
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
+  const millis = String(milliseconds % 1000).padStart(3, "0");
+  return `${minutes}:${seconds}.${millis}`;
+}
+
+function currentElapsedMs() {
+  if (!timer.running) return timer.elapsedMs;
+  return Date.now() - timer.startedAt + timer.elapsedMs;
 }
 
 function splitTotal(total, weights) {
@@ -285,13 +293,14 @@ function getTimerStatus(elapsed) {
 }
 
 function updateTimerDisplay() {
-  const elapsed = currentElapsed();
-  const status = getTimerStatus(elapsed);
+  const elapsedMs = currentElapsedMs();
+  const elapsedSeconds = Math.floor(elapsedMs / 1000);
+  const status = getTimerStatus(elapsedSeconds);
 
-  els.timerDisplay.textContent = formatTime(elapsed);
+  els.timerDisplay.textContent = formatStopwatch(elapsedMs);
   els.timerLabel.textContent = status.label;
   els.timerPrompt.textContent = status.prompt;
-  els.timerToggle.textContent = timer.running ? "Pause" : elapsed > 0 ? "Resume" : "Start";
+  els.timerToggle.textContent = timer.running ? "Pause" : elapsedMs > 0 ? "Resume" : "Start";
 
   [...els.timeline.children].forEach((item, index) => {
     const pourNumber = index + 1;
@@ -304,13 +313,13 @@ function startTimer() {
   if (timer.running) return;
   timer.running = true;
   timer.startedAt = Date.now();
-  timerId = window.setInterval(updateTimerDisplay, 250);
+  timerId = window.setInterval(updateTimerDisplay, 33);
   updateTimerDisplay();
 }
 
 function pauseTimer() {
   if (!timer.running) return;
-  timer.elapsed = currentElapsed();
+  timer.elapsedMs = currentElapsedMs();
   timer.running = false;
   window.clearInterval(timerId);
   updateTimerDisplay();
@@ -318,7 +327,7 @@ function pauseTimer() {
 
 function resetTimer(showMessage = true) {
   timer.running = false;
-  timer.elapsed = 0;
+  timer.elapsedMs = 0;
   timer.startedAt = 0;
   window.clearInterval(timerId);
   if (showMessage) showToast("Timer reset.");
