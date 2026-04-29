@@ -170,32 +170,6 @@ button.preset {
   color: var(--ink);
 }
 
-button.step {
-  width: 38px;
-  min-width: 38px;
-  min-height: 52px;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  color: var(--muted);
-  font-size: 1.1rem;
-  font-weight: 700;
-  padding: 0;
-  flex-shrink: 0;
-}
-
-button.step[data-dir="-1"] {
-  border-right: 1px solid var(--line);
-}
-
-button.step[data-dir="1"] {
-  border-left: 1px solid var(--line);
-}
-
-button.step:active {
-  background: color-mix(in srgb, var(--accent), transparent 82%);
-  color: var(--ink);
-}
 
 .input-grid,
 .select-grid {
@@ -258,8 +232,22 @@ select {
 }
 
 .unit-input input {
-  flex: 1;
-  width: auto;
+  cursor: ns-resize;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.drag-hint {
+  padding: 0 4px 0 2px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  pointer-events: none;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.unit-input input.is-dragging {
+  opacity: 0.75;
 }
 
 .unit-input em {
