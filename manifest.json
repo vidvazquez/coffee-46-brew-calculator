@@ -1,0 +1,25 @@
+{
+  "name": "Coffee 4:6 Brew Calculator",
+  "short_name": "4:6 Brew",
+  "description": "A mobile-first 4:6 pour-over brew calculator.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4efe7",
+  "theme_color": "#f4efe7",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
