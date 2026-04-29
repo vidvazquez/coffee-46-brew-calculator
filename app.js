@@ -465,21 +465,43 @@ document.querySelectorAll(".preset").forEach((button) => {
   button.addEventListener("click", () => applyPreset(button.dataset.preset));
 });
 
+function applyStep(target, dir) {
+  const delta = STEP_SIZES[target] * Number(dir);
+  if (target === "coffee") {
+    els.coffee.value = String(Math.round(Math.max(0.1, state.coffee + delta) * 10) / 10);
+  } else if (target === "water") {
+    els.water.value = String(Math.max(1, Math.round(state.water + delta)));
+  } else if (target === "ratio") {
+    els.ratio.value = String(Math.round(clamp(state.ratio + delta, 10, 20) * 10) / 10);
+  } else if (target === "temperature") {
+    els.temperature.value = String(clamp(Math.round(state.temperature + delta), 170, 212));
+  }
+  reconcile(target);
+}
+
 document.querySelectorAll(".field-steppers button").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const { target, dir } = btn.dataset;
-    const delta = STEP_SIZES[target] * Number(dir);
-    if (target === "coffee") {
-      els.coffee.value = String(Math.round(Math.max(0.1, state.coffee + delta) * 10) / 10);
-    } else if (target === "water") {
-      els.water.value = String(Math.max(1, Math.round(state.water + delta)));
-    } else if (target === "ratio") {
-      els.ratio.value = String(Math.round(clamp(state.ratio + delta, 10, 20) * 10) / 10);
-    } else if (target === "temperature") {
-      els.temperature.value = String(clamp(Math.round(state.temperature + delta), 170, 212));
-    }
-    reconcile(target);
+  const { target, dir } = btn.dataset;
+  let holdTimer = null;
+  let holdInterval = null;
+
+  function stop() {
+    clearTimeout(holdTimer);
+    clearInterval(holdInterval);
+    holdTimer = null;
+    holdInterval = null;
+  }
+
+  btn.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    btn.setPointerCapture(e.pointerId);
+    applyStep(target, dir);
+    holdTimer = setTimeout(() => {
+      holdInterval = setInterval(() => applyStep(target, dir), 80);
+    }, 400);
   });
+  btn.addEventListener("pointerup", stop);
+  btn.addEventListener("pointercancel", stop);
+  btn.addEventListener("pointerleave", stop);
 });
 
 els.coffee.addEventListener("input", () => reconcile("coffee"));

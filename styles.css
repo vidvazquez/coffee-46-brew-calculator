@@ -243,6 +243,10 @@ select {
   border-bottom: 1px solid var(--line);
 }
 
+.value-field input {
+  font-size: 1.4rem;
+}
+
 .field-steppers {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -257,6 +261,7 @@ select {
   font-size: 1.2rem;
   font-weight: 700;
   padding: 0;
+  touch-action: manipulation;
 }
 
 .field-steppers button:first-child {
