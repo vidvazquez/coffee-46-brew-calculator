@@ -26,12 +26,7 @@ const BODY_POURS = {
   Heavy: 3,
 };
 
-const DRAG = {
-  coffee:      { step: 0.1, px: 5 },
-  water:       { step: 1,   px: 3 },
-  ratio:       { step: 0.1, px: 5 },
-  temperature: { step: 1,   px: 8 },
-};
+const STEP_SIZES = { coffee: 0.1, water: 5, ratio: 0.1, temperature: 1 };
 
 const CUP_NOTES = {
   "Sweet-Light": "Clear sweetness, lighter texture, soft acidity.",
@@ -470,52 +465,22 @@ document.querySelectorAll(".preset").forEach((button) => {
   button.addEventListener("click", () => applyPreset(button.dataset.preset));
 });
 
-function setupDrag(inputEl, field) {
-  const { step, px } = DRAG[field];
-  let startY = null;
-  let startVal = null;
-  let dragging = false;
-
-  function snap(raw) {
-    if (field === "coffee") return Math.round(Math.max(0.1, raw) * 10) / 10;
-    if (field === "water")  return Math.max(1, Math.round(raw));
-    if (field === "ratio")  return Math.round(clamp(raw, 10, 20) * 10) / 10;
-    if (field === "temperature") return clamp(Math.round(raw), 170, 212);
-  }
-
-  inputEl.addEventListener("touchstart", (e) => {
-    startY = e.touches[0].clientY;
-    startVal = state[field];
-    dragging = false;
-  }, { passive: true });
-
-  inputEl.addEventListener("touchmove", (e) => {
-    if (startY === null) return;
-    const dy = startY - e.touches[0].clientY;
-    if (!dragging && Math.abs(dy) > 5) {
-      dragging = true;
-      inputEl.blur();
-      inputEl.classList.add("is-dragging");
+document.querySelectorAll(".field-steppers button").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const { target, dir } = btn.dataset;
+    const delta = STEP_SIZES[target] * Number(dir);
+    if (target === "coffee") {
+      els.coffee.value = String(Math.round(Math.max(0.1, state.coffee + delta) * 10) / 10);
+    } else if (target === "water") {
+      els.water.value = String(Math.max(1, Math.round(state.water + delta)));
+    } else if (target === "ratio") {
+      els.ratio.value = String(Math.round(clamp(state.ratio + delta, 10, 20) * 10) / 10);
+    } else if (target === "temperature") {
+      els.temperature.value = String(clamp(Math.round(state.temperature + delta), 170, 212));
     }
-    if (!dragging) return;
-    e.preventDefault();
-    const steps = dy / px;
-    inputEl.value = String(snap(startVal + steps * step));
-    reconcile(field);
-  }, { passive: false });
-
-  inputEl.addEventListener("touchend", (e) => {
-    inputEl.classList.remove("is-dragging");
-    if (dragging) e.preventDefault();
-    startY = null;
-    dragging = false;
+    reconcile(target);
   });
-}
-
-setupDrag(els.coffee, "coffee");
-setupDrag(els.water, "water");
-setupDrag(els.ratio, "ratio");
-setupDrag(els.temperature, "temperature");
+});
 
 els.coffee.addEventListener("input", () => reconcile("coffee"));
 els.water.addEventListener("input", () => reconcile("water"));

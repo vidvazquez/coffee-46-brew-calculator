@@ -231,23 +231,41 @@ select {
   font-weight: 800;
 }
 
-.unit-input input {
-  cursor: ns-resize;
-  -webkit-user-select: none;
-  user-select: none;
+.value-field {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
-.drag-hint {
-  padding: 0 4px 0 2px;
+.value-field .unit-input {
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.field-steppers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.field-steppers button {
+  min-height: 44px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
   color: var(--muted);
-  font-size: 0.7rem;
-  pointer-events: none;
-  flex-shrink: 0;
-  opacity: 0.6;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0;
 }
 
-.unit-input input.is-dragging {
-  opacity: 0.75;
+.field-steppers button:first-child {
+  border-right: 1px solid var(--line);
+}
+
+.field-steppers button:active {
+  background: color-mix(in srgb, var(--accent), transparent 82%);
+  color: var(--ink);
 }
 
 .unit-input em {

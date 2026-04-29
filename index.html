@@ -12,7 +12,7 @@
     <link rel="manifest" href="./manifest.json" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="icon" href="./icons/icon-192.png" sizes="192x192" />
-    <link rel="stylesheet" href="./styles.css?v=12" />
+    <link rel="stylesheet" href="./styles.css?v=13" />
   </head>
   <body>
     <main class="app" aria-labelledby="app-title">
@@ -61,38 +61,58 @@
         <div class="input-grid">
           <label>
             <span>Coffee</span>
-            <span class="unit-input">
-              <input id="coffee" inputmode="decimal" type="number" min="0.1" step="0.1" value="22" />
-              <span class="drag-hint">↕</span>
-              <em>g</em>
-            </span>
+            <div class="value-field">
+              <span class="unit-input">
+                <input id="coffee" inputmode="decimal" type="number" min="0.1" step="0.1" value="22" />
+                <em>g</em>
+              </span>
+              <div class="field-steppers">
+                <button type="button" data-target="coffee" data-dir="-1">−</button>
+                <button type="button" data-target="coffee" data-dir="1">+</button>
+              </div>
+            </div>
           </label>
 
           <label>
             <span>Water</span>
-            <span class="unit-input">
-              <input id="water" inputmode="numeric" type="number" min="1" step="1" value="363" />
-              <span class="drag-hint">↕</span>
-              <em>g</em>
-            </span>
+            <div class="value-field">
+              <span class="unit-input">
+                <input id="water" inputmode="numeric" type="number" min="1" step="1" value="363" />
+                <em>g</em>
+              </span>
+              <div class="field-steppers">
+                <button type="button" data-target="water" data-dir="-1">−</button>
+                <button type="button" data-target="water" data-dir="1">+</button>
+              </div>
+            </div>
           </label>
 
           <label>
             <span>Ratio</span>
-            <span class="unit-input ratio-input">
-              <em>1:</em>
-              <input id="ratio" inputmode="decimal" type="number" min="10" max="20" step="0.1" value="16.5" />
-              <span class="drag-hint">↕</span>
-            </span>
+            <div class="value-field">
+              <span class="unit-input ratio-input">
+                <em>1:</em>
+                <input id="ratio" inputmode="decimal" type="number" min="10" max="20" step="0.1" value="16.5" />
+              </span>
+              <div class="field-steppers">
+                <button type="button" data-target="ratio" data-dir="-1">−</button>
+                <button type="button" data-target="ratio" data-dir="1">+</button>
+              </div>
+            </div>
           </label>
 
           <label>
             <span>Temperature</span>
-            <span class="unit-input">
-              <input id="temperature" inputmode="numeric" type="number" min="170" max="212" step="1" value="201" />
-              <span class="drag-hint">↕</span>
-              <em>°F</em>
-            </span>
+            <div class="value-field">
+              <span class="unit-input">
+                <input id="temperature" inputmode="numeric" type="number" min="170" max="212" step="1" value="201" />
+                <em>°F</em>
+              </span>
+              <div class="field-steppers">
+                <button type="button" data-target="temperature" data-dir="-1">−</button>
+                <button type="button" data-target="temperature" data-dir="1">+</button>
+              </div>
+            </div>
           </label>
         </div>
 
@@ -184,6 +204,6 @@
       <p id="toast" class="toast" aria-live="polite"></p>
     </main>
 
-    <script src="./app.js?v=12"></script>
+    <script src="./app.js?v=13"></script>
   </body>
 </html>
