@@ -26,6 +26,7 @@ const BODY_POURS = {
   Heavy: 3,
 };
 
+
 const CUP_NOTES = {
   "Sweet-Light": "Clear sweetness, lighter texture, soft acidity.",
   "Sweet-Medium": "Round sweetness, moderate weight, smooth acidity.",
@@ -463,10 +464,11 @@ document.querySelectorAll(".preset").forEach((button) => {
   button.addEventListener("click", () => applyPreset(button.dataset.preset));
 });
 
+
 els.coffee.addEventListener("input", () => reconcile("coffee"));
 els.water.addEventListener("input", () => reconcile("water"));
-els.ratio.addEventListener("input", () => reconcile("ratio"));
-els.temperature.addEventListener("input", () => reconcile("temperature"));
+els.ratio.addEventListener("change", () => reconcile("ratio"));
+els.temperature.addEventListener("change", () => reconcile("temperature"));
 els.coffee.addEventListener("blur", () => render());
 els.water.addEventListener("blur", () => render());
 els.ratio.addEventListener("blur", () => render());
