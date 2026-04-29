@@ -1,9 +1,9 @@
-const CACHE_NAME = "coffee-46-brew-v10";
+const CACHE_NAME = "coffee-46-brew-v11";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=10",
-  "./app.js?v=10",
+  "./styles.css?v=11",
+  "./app.js?v=11",
   "./manifest.json",
   "./icons/icon.svg",
   "./icons/icon-192.png",

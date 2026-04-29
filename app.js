@@ -26,6 +26,7 @@ const BODY_POURS = {
   Heavy: 3,
 };
 
+const STEP_SIZES = { coffee: 0.1, water: 5, ratio: 0.1, temperature: 1 };
 
 const CUP_NOTES = {
   "Sweet-Light": "Clear sweetness, lighter texture, soft acidity.",
@@ -464,6 +465,22 @@ document.querySelectorAll(".preset").forEach((button) => {
   button.addEventListener("click", () => applyPreset(button.dataset.preset));
 });
 
+document.querySelectorAll(".step").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const { target, dir } = btn.dataset;
+    const delta = STEP_SIZES[target] * Number(dir);
+    if (target === "coffee") {
+      els.coffee.value = String(Math.round(Math.max(0.1, state.coffee + delta) * 10) / 10);
+    } else if (target === "water") {
+      els.water.value = String(Math.max(1, Math.round(state.water + delta)));
+    } else if (target === "ratio") {
+      els.ratio.value = String(Math.round(clamp(state.ratio + delta, 10, 20) * 10) / 10);
+    } else if (target === "temperature") {
+      els.temperature.value = String(clamp(Math.round(state.temperature + delta), 170, 212));
+    }
+    reconcile(target);
+  });
+});
 
 els.coffee.addEventListener("input", () => reconcile("coffee"));
 els.water.addEventListener("input", () => reconcile("water"));
