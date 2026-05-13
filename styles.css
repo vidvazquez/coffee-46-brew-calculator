@@ -427,8 +427,14 @@ select {
   color: var(--muted);
 }
 
-.timeline strong {
+.timeline em {
   margin-left: auto;
+  padding-right: 6px;
+  color: var(--muted);
+  font-style: normal;
+}
+
+.timeline strong {
   color: var(--ink);
 }
 

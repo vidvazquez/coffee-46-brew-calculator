@@ -12,7 +12,7 @@
     <link rel="manifest" href="./manifest.json" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="icon" href="./icons/icon-192.png" sizes="192x192" />
-    <link rel="stylesheet" href="./styles.css?v=17" />
+    <link rel="stylesheet" href="./styles.css?v=18" />
   </head>
   <body>
     <main class="app" aria-labelledby="app-title">
@@ -139,31 +139,13 @@
         <p id="validation-note" class="validation-note" aria-live="polite"></p>
       </section>
 
-      <section class="panel" aria-label="Pour breakdown">
+      <section class="panel" aria-label="Pour plan and timeline">
         <div class="section-heading">
           <div>
             <p class="eyebrow">4:6 pours</p>
             <h2>Pour Plan</h2>
           </div>
           <span id="pour-count" class="pill">4 pours</span>
-        </div>
-
-        <div class="pour-table" role="table" aria-label="Pour table">
-          <div class="table-row table-head" role="row">
-            <span role="columnheader">Pour</span>
-            <span role="columnheader">Amount</span>
-            <span role="columnheader">Total</span>
-          </div>
-          <div id="pour-rows"></div>
-        </div>
-      </section>
-
-      <section class="panel" aria-label="Brew timeline">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Timing</p>
-            <h2>Timeline</h2>
-          </div>
         </div>
         <ol id="timeline" class="timeline"></ol>
         <div class="brew-timer" aria-label="Brew stopwatch">
@@ -204,6 +186,6 @@
       <p id="toast" class="toast" aria-live="polite"></p>
     </main>
 
-    <script src="./app.js?v=17"></script>
+    <script src="./app.js?v=18"></script>
   </body>
 </html>

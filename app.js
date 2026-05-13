@@ -55,7 +55,6 @@ const els = {
   summaryBody: document.querySelector("#summary-body"),
   validationNote: document.querySelector("#validation-note"),
   pourCount: document.querySelector("#pour-count"),
-  pourRows: document.querySelector("#pour-rows"),
   timeline: document.querySelector("#timeline"),
   timerLabel: document.querySelector("#timer-label"),
   timerDisplay: document.querySelector("#timer-display"),
@@ -226,25 +225,11 @@ function render(activeField) {
   els.pourCount.textContent = `${pours.length} pours`;
   els.cupNotes.textContent = CUP_NOTES[`${state.flavor}-${state.body}`];
 
-  els.pourRows.replaceChildren(
-    ...pours.map((pour) => {
-      const row = document.createElement("div");
-      row.className = "table-row";
-      row.setAttribute("role", "row");
-      row.innerHTML = `
-        <strong role="cell">#${pour.number}</strong>
-        <strong role="cell">${pour.amount} g</strong>
-        <strong role="cell">${pour.total} g</strong>
-      `;
-      return row;
-    }),
-  );
-
   els.timeline.replaceChildren(
     ...pours.map((pour) => {
       const item = document.createElement("li");
       item.dataset.pourTime = String(pour.time);
-      item.innerHTML = `<span>${formatTime(pour.time)}</span> Pour #${pour.number} <strong>${pour.amount} g</strong>`;
+      item.innerHTML = `<span>${formatTime(pour.time)}</span> Pour #${pour.number}<em>${pour.amount} g</em><strong>→ ${pour.total} g</strong>`;
       return item;
     }),
   );
