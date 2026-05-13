@@ -412,10 +412,10 @@ select {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 40px;
+  min-height: 46px;
   border-radius: var(--radius);
   background: var(--field);
-  padding: 0 10px;
+  padding: 0 12px;
 }
 
 .timeline li.active {
@@ -431,11 +431,13 @@ select {
   margin-left: auto;
   padding-right: 6px;
   color: var(--muted);
+  font-size: 1.05rem;
   font-style: normal;
 }
 
 .timeline strong {
   color: var(--ink);
+  font-size: 1.2rem;
 }
 
 .notes-panel {
