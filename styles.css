@@ -436,7 +436,7 @@ select {
 }
 
 .timeline strong {
-  color: var(--warm);
+  color: #e8a020;
   font-size: 1.2rem;
 }
 
