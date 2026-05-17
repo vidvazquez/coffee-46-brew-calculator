@@ -366,6 +366,7 @@ select {
   margin: 0;
   padding: 0 14px 12px;
   list-style: none;
+  overflow: visible;
 }
 
 .brew-timer {
@@ -435,9 +436,9 @@ select {
 .timeline li.active {
   outline: 2px solid color-mix(in srgb, var(--accent), transparent 20%);
   background: color-mix(in srgb, var(--accent), var(--field) 84%);
-  transform: scale(1.04);
+  transform: scale(1.1);
   z-index: 1;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 .timeline li.done {
