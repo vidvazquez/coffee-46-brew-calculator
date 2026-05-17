@@ -430,15 +430,32 @@ select {
   background: var(--field);
   padding: 0 12px;
   position: relative;
-  transition: transform 220ms ease, box-shadow 220ms ease;
+  transition: box-shadow 300ms ease, opacity 300ms ease, filter 300ms ease, min-height 300ms ease, font-size 300ms ease;
 }
 
 .timeline li.active {
   outline: 2px solid color-mix(in srgb, var(--accent), transparent 20%);
   background: color-mix(in srgb, var(--accent), var(--field) 84%);
-  transform: scale(1.1);
-  z-index: 1;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  min-height: 70px;
+  z-index: 10;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65);
+}
+
+.timeline li.active span {
+  font-size: 1rem;
+}
+
+.timeline li.active em {
+  font-size: 1.5rem;
+}
+
+.timeline li.active strong {
+  font-size: 2.4rem;
+}
+
+.timeline.has-active li:not(.active) {
+  opacity: 0.15;
+  filter: blur(1px);
 }
 
 .timeline li.done {

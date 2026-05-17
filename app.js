@@ -302,6 +302,9 @@ function updateTimerDisplay() {
   els.timerPrompt.textContent = status.prompt;
   els.timerToggle.textContent = timer.running ? "Pause" : elapsedMs > 0 ? "Resume" : "Start";
 
+  const brewing = timer.running || elapsedMs > 0;
+  els.timeline.classList.toggle("has-active", brewing && status.activePour !== null);
+
   [...els.timeline.children].forEach((item, index) => {
     const pourNumber = index + 1;
     item.classList.toggle("active", status.activePour === pourNumber);
