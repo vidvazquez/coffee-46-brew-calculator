@@ -63,6 +63,12 @@ const els = {
   timerReset: document.querySelector("#timer-reset"),
   cupNotes: document.querySelector("#cup-notes"),
   favorites: document.querySelector("#favorites"),
+  favoritesToggle: document.querySelector("#favorites-toggle"),
+  favoritesBody: document.querySelector("#favorites-body"),
+  saveForm: document.querySelector("#save-form"),
+  saveNameInput: document.querySelector("#save-name"),
+  saveConfirm: document.querySelector("#save-confirm"),
+  saveCancel: document.querySelector("#save-cancel"),
   toast: document.querySelector("#toast"),
 };
 
@@ -73,6 +79,8 @@ const timer = {
   running: false,
   elapsedMs: 0,
   startedAt: 0,
+  countdown: 0,
+  countdownId: null,
 };
 
 function clamp(value, min, max) {
@@ -280,6 +288,11 @@ function getTimerStatus(elapsed) {
 }
 
 function updateTimerDisplay() {
+  if (timer.countdown > 0) {
+    els.timerToggle.textContent = "Cancel";
+    return;
+  }
+
   const elapsedMs = currentElapsedMs();
   const elapsedSeconds = Math.floor(elapsedMs / 1000);
   const status = getTimerStatus(elapsedSeconds);
@@ -296,12 +309,37 @@ function updateTimerDisplay() {
   });
 }
 
-function startTimer() {
-  if (timer.running) return;
-  timer.running = true;
-  timer.startedAt = Date.now();
-  timerId = window.setInterval(updateTimerDisplay, 33);
+function cancelCountdown() {
+  if (!timer.countdownId) return;
+  clearInterval(timer.countdownId);
+  timer.countdownId = null;
+  timer.countdown = 0;
   updateTimerDisplay();
+}
+
+function startTimer() {
+  if (timer.running || timer.countdown > 0) return;
+  let count = 3;
+  timer.countdown = count;
+  els.timerDisplay.textContent = String(count);
+  els.timerLabel.textContent = "Get ready…";
+  els.timerPrompt.textContent = "Starting in…";
+  els.timerToggle.textContent = "Cancel";
+  timer.countdownId = setInterval(() => {
+    count -= 1;
+    timer.countdown = count;
+    if (count <= 0) {
+      clearInterval(timer.countdownId);
+      timer.countdownId = null;
+      timer.countdown = 0;
+      timer.running = true;
+      timer.startedAt = Date.now();
+      timerId = window.setInterval(updateTimerDisplay, 33);
+      updateTimerDisplay();
+    } else {
+      els.timerDisplay.textContent = String(count);
+    }
+  }, 1000);
 }
 
 function pauseTimer() {
@@ -313,6 +351,7 @@ function pauseTimer() {
 }
 
 function resetTimer(showMessage = true) {
+  cancelCountdown();
   timer.running = false;
   timer.elapsedMs = 0;
   timer.startedAt = 0;
@@ -322,7 +361,9 @@ function resetTimer(showMessage = true) {
 }
 
 function toggleTimer() {
-  if (timer.running) {
+  if (timer.countdown > 0) {
+    cancelCountdown();
+  } else if (timer.running) {
     pauseTimer();
   } else {
     startTimer();
@@ -392,15 +433,40 @@ function saveFavorites(favorites) {
   localStorage.setItem("brew46Favorites", JSON.stringify(favorites.slice(0, 6)));
 }
 
-function saveFavorite() {
-  const favorite = {
-    ...state,
-    id: Date.now(),
-  };
+function defaultFavoriteName() {
+  return `${Math.round(state.coffee * 10) / 10}g · ${state.flavor} · ${state.body}`;
+}
+
+function showSaveForm() {
+  els.saveNameInput.value = defaultFavoriteName();
+  els.saveForm.hidden = false;
+  setTimeout(() => { els.saveNameInput.focus(); els.saveNameInput.select(); }, 50);
+}
+
+function hideSaveForm() {
+  els.saveForm.hidden = true;
+}
+
+function confirmSave() {
+  const name = els.saveNameInput.value.trim() || defaultFavoriteName();
+  const favorite = { ...state, id: Date.now(), name };
   const favorites = [favorite, ...getFavorites().filter((item) => item.id !== favorite.id)];
   saveFavorites(favorites);
   renderFavorites();
-  showToast("Favorite saved.");
+  hideSaveForm();
+  openFavorites();
+  showToast(`Saved "${name}".`);
+}
+
+function toggleFavorites() {
+  const isOpen = els.favoritesBody.classList.contains("open");
+  els.favoritesBody.classList.toggle("open", !isOpen);
+  els.favoritesToggle.setAttribute("aria-expanded", String(!isOpen));
+}
+
+function openFavorites() {
+  els.favoritesBody.classList.add("open");
+  els.favoritesToggle.setAttribute("aria-expanded", "true");
 }
 
 function loadFavorite(favorite) {
@@ -420,11 +486,11 @@ function renderFavorites() {
     ...favorites.map((favorite) => {
       const item = document.createElement("div");
       item.className = "favorite-item";
-      const label = `${favorite.coffee} g / 1:${formatRatio(favorite.ratio)} / ${favorite.flavor}, ${favorite.body}`;
+      const label = favorite.name || `${favorite.coffee} g · ${favorite.flavor} · ${favorite.body}`;
       item.innerHTML = `
         <div>
           <strong>${label}</strong>
-          <p>${Math.round(favorite.water)} g at ${favorite.temperature}°F</p>
+          <p>${favorite.coffee} g · 1:${formatRatio(favorite.ratio)} · ${Math.round(favorite.water)} g at ${favorite.temperature}°F</p>
         </div>
         <button type="button">Load</button>
       `;
@@ -501,7 +567,14 @@ els.flavor.addEventListener("change", () => reconcile("flavor"));
 els.body.addEventListener("change", () => reconcile("body"));
 document.querySelector("#copy").addEventListener("click", copyRecipe);
 document.querySelector("#share").addEventListener("click", shareRecipe);
-document.querySelector("#save").addEventListener("click", saveFavorite);
+document.querySelector("#save").addEventListener("click", showSaveForm);
+document.querySelector("#save-confirm").addEventListener("click", confirmSave);
+document.querySelector("#save-cancel").addEventListener("click", hideSaveForm);
+els.saveNameInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") confirmSave();
+  if (e.key === "Escape") hideSaveForm();
+});
+els.favoritesToggle.addEventListener("click", toggleFavorites);
 document.querySelector("#reset").addEventListener("click", () => {
   state = { ...DEFAULT_STATE };
   resetTimer(false);

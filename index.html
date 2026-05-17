@@ -12,7 +12,7 @@
     <link rel="manifest" href="./manifest.json" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="icon" href="./icons/icon-192.png" sizes="192x192" />
-    <link rel="stylesheet" href="./styles.css?v=23" />
+    <link rel="stylesheet" href="./styles.css?v=25" />
   </head>
   <body>
     <main class="app" aria-labelledby="app-title">
@@ -173,19 +173,30 @@
         <button id="reset" class="muted" type="button">Reset</button>
       </section>
 
+      <div id="save-form" class="panel save-form" hidden>
+        <input id="save-name" type="text" placeholder="Name this recipe…" autocomplete="off" />
+        <div class="save-form-actions">
+          <button id="save-confirm" type="button">Save</button>
+          <button id="save-cancel" class="muted" type="button">Cancel</button>
+        </div>
+      </div>
+
       <section class="panel favorites-panel" aria-label="Saved recipes">
-        <div class="section-heading">
+        <button class="section-heading favorites-toggle" id="favorites-toggle" type="button" aria-expanded="false">
           <div>
             <p class="eyebrow">Local</p>
             <h2>Favorites</h2>
           </div>
+          <span class="chevron">▾</span>
+        </button>
+        <div id="favorites-body" class="favorites-body">
+          <div id="favorites" class="favorites"></div>
         </div>
-        <div id="favorites" class="favorites"></div>
       </section>
 
       <p id="toast" class="toast" aria-live="polite"></p>
     </main>
 
-    <script src="./app.js?v=23"></script>
+    <script src="./app.js?v=25"></script>
   </body>
 </html>
