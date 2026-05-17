@@ -436,26 +436,21 @@ select {
 .timeline li.active {
   outline: 2px solid color-mix(in srgb, var(--accent), transparent 20%);
   background: color-mix(in srgb, var(--accent), var(--field) 84%);
-  min-height: 70px;
+  min-height: 60px;
   z-index: 10;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65);
 }
 
 .timeline li.active span {
-  font-size: 1rem;
+  font-size: 0.94rem;
 }
 
 .timeline li.active em {
-  font-size: 1.5rem;
+  font-size: 1.32rem;
 }
 
 .timeline li.active strong {
-  font-size: 2.4rem;
-}
-
-.timeline.has-active li:not(.active) {
-  opacity: 0.15;
-  filter: blur(1px);
+  font-size: 1.92rem;
 }
 
 .timeline li.done {
