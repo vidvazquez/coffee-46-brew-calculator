@@ -540,6 +540,11 @@ select {
   padding: 10px;
 }
 
+.favorite-actions {
+  display: flex;
+  gap: 6px;
+}
+
 .favorite-item button {
   min-height: 38px;
 }

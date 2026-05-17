@@ -492,9 +492,18 @@ function renderFavorites() {
           <strong>${label}</strong>
           <p>${favorite.coffee} g · 1:${formatRatio(favorite.ratio)} · ${Math.round(favorite.water)} g at ${favorite.temperature}°F</p>
         </div>
-        <button type="button">Load</button>
+        <div class="favorite-actions">
+          <button type="button" class="favorite-load">Load</button>
+          <button type="button" class="favorite-delete muted">✕</button>
+        </div>
       `;
-      item.querySelector("button").addEventListener("click", () => loadFavorite(favorite));
+      item.querySelector(".favorite-load").addEventListener("click", () => loadFavorite(favorite));
+      item.querySelector(".favorite-delete").addEventListener("click", () => {
+        const updated = getFavorites().filter((f) => f.id !== favorite.id);
+        saveFavorites(updated);
+        renderFavorites();
+        showToast("Deleted.");
+      });
       return item;
     }),
   );
